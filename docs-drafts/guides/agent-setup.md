@@ -19,8 +19,10 @@ interactive prompt. Every command here is safe to run again.
 
 ## 1. Pick the skill
 
-Install the skill the user asked for. If they did not say, ask which one.
-Install more than one only if they ask for it.
+Install the skills the user asked for. If they did not say, ask which ones,
+and let them pick more than one: a publisher often wants both
+`cashmere-content` and `cashmere-reporting`. If your agent has a
+multiple-choice question tool, make it multi-select.
 
 | Skill | For | Key it needs |
 | --- | --- | --- |
@@ -28,7 +30,9 @@ Install more than one only if they ask for it.
 | `cashmere-content` | Publishers uploading and managing content | Read & Write, publisher organization |
 | `cashmere-reporting` | Publishers tracking usage and revenue | Read-only |
 
-In the commands below, replace `<skill>` with the skill's name.
+In the commands below, replace `<skill>` with the skill's name. Repeat the
+install and verify steps for each skill chosen. The marketplace is added
+only once.
 
 ## 2. Install it
 
