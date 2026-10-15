@@ -1,7 +1,8 @@
 ---
 title: Set up your coding agent for Cashmere
-created_at: 2026-10-14
-updated_at: 2026-10-14
+description: Install the cashmere-developer, cashmere-content or cashmere-reporting agent skill into Claude Code, Codex, Cursor and other agents.
+created_at: 2026-10-15
+updated_at: 2026-10-15
 status: published
 ---
 
@@ -59,6 +60,30 @@ Expect `<skill>@cashmere` with status enabled. If it shows as disabled, run
 > `/plugin`, open **Marketplaces**, choose **cashmere**, and select
 > **Enable auto-update**. Claude Code only updates third-party marketplaces
 > automatically once this is on.
+
+### Codex
+
+```
+codex plugin marketplace add https://github.com/cashmere-data/skills.git
+codex plugin add <skill>@cashmere
+```
+
+> **User step.** In the Codex desktop app, ask the user to quit and reopen
+> it so the plugin loads. The CLI picks it up in the next session.
+
+If `codex plugin` is not available in this Codex version, use the
+"Other agents" route below with `--agent codex`.
+
+### Claude Desktop and claude.ai (chat)
+
+Chat can't run install commands, so this route is entirely a user step.
+Skills in chat run in a sandbox that may not be able to reach
+`cashmere.io` or see an API key. If API calls fail there, use the Cashmere
+MCP connector instead (step 4), which signs in without a key.
+
+> **User step.** Ask the user to download the skill's zip,
+> `https://github.com/cashmere-data/skills/releases/latest/download/<skill>.zip`,
+> and upload it in Claude under **Settings > Capabilities > Skills**.
 
 ### Other agents
 
