@@ -73,6 +73,24 @@ disagree, the docs win.
   licensed for. Attaching collections narrows it. Empty search results usually
   mean the key has no license to that content, not that the query is wrong.
 
+## Orient yourself
+
+When the user asks for an overview or a tour, or you need context before
+building, read the account first. Use read-only calls only:
+
+1. `GET /allowed-endpoints`: the key's type and endpoint scope.
+2. `GET /collections` and `GET /licenses`: what the organization can read,
+   and under which licenses.
+3. `GET /omnipubs`: how many publications the key can see, and a few titles.
+4. One `GET /search` on a topic taken from those titles, to prove retrieval
+   end to end.
+
+Report it as a short table, then tour what the user could build, using their
+real collections and titles as the examples. If the key sees no
+publications, say so first. Every search will come back empty until the
+organization licenses a collection, and that, not the code, is the next
+step.
+
 ## MCP tools or REST
 
 The Cashmere MCP server exposes a read-only subset of the REST API (search,

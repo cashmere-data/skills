@@ -70,6 +70,23 @@ docs win.
   dashboard page and say which setting to change. Do not guess an API
   field.
 
+## Orient yourself
+
+When the user asks for an overview or a tour, or before a first upload, read
+the account first. Use read-only calls only:
+
+1. `GET /allowed-endpoints`: whether the key can write.
+2. `GET /collections`: the publisher's collections, with publication
+   counts. Note which are manual (uploadable) and which are dynamic.
+3. `GET /omnipubs` with `view_mode=published`: how many titles are live, and
+   a few examples.
+4. `GET /licenses` and `GET /licensees`: who is licensed to what. A 403 on
+   `/licensees` saying "Publisher privileges required" means the organization
+   is not a publisher. Uploads will fail too, so say this first.
+
+Report it as a short table, then tour what the user can do next (upload,
+organize, license), using their real collections as the examples.
+
 ## Plan the upload
 
 Settle these before writing a loop over a thousand files:

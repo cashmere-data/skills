@@ -58,6 +58,23 @@ filters and limits. Where this skill and the docs disagree, the docs win.
   wrong view returns real but unrelated numbers, and nothing errors to warn
   you.
 
+## Orient yourself
+
+When the user asks for an overview or a tour, start with the numbers they
+will care about:
+
+1. `GET /report/summary` with `view=publisher`, for this month and for last
+   month: tokens, events, and the date of the first and last event.
+2. If there is usage, page through last month's `GET /report` rows with
+   `view=publisher`, and show the top titles and top licensees. Fetch every
+   page before ranking anything.
+3. If there is no usage at all, check `GET /omnipubs` with
+   `view_mode=published` and `GET /licenses`. Nothing to report usually
+   means no live titles or no licensees yet, so name which.
+
+Then tour the questions you can answer (by title, licensee, app, day,
+license right, citation), and offer to turn one into a recurring report.
+
 ## Pick the right endpoint
 
 | Question | Use |
