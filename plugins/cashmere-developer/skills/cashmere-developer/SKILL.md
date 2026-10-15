@@ -13,7 +13,7 @@ description: >
   cashmere-reporting.
 metadata:
   author: Cashmere
-  version: "0.4.0"
+  version: "0.5.0"
 ---
 
 # Build with Cashmere
@@ -54,6 +54,10 @@ disagree, the docs win.
 | See what the MCP tools do | [Cashmere MCP tools](https://cashmere.io/docs/guides/developers/cashmere-mcp-tools.md) |
 | Let your users connect their own Cashmere account | [Cashmere Link (OAuth)](https://cashmere.io/docs/guides/developers/cashmere-link-oauth-overview.md) |
 | Report usage back, or read your usage | [Usage data via API](https://cashmere.io/docs/guides/developers/usage-data-via-api.md) |
+| Answer from search results with citations (RAG) | [Cookbook: RAG with citations](https://cashmere.io/docs/guides/developers/cookbooks/rag-with-citations.md) |
+| Limit an agent to one licensed collection | [Cookbook: an agent scoped to one collection](https://cashmere.io/docs/guides/developers/cookbooks/agent-scoped-to-one-collection.md) |
+| List or search publications by tag | [Cookbook: filter by tag](https://cashmere.io/docs/guides/developers/cookbooks/filter-by-tag.md) (`/search` has no tag filter) |
+| Find sources, then read whole sections | [Cookbook: deep research over MCP](https://cashmere.io/docs/guides/developers/cookbooks/deep-research-over-mcp.md) (MCP and REST) |
 
 ## Set up access
 
@@ -168,11 +172,11 @@ recommend one. For a concrete request, pick the shape and build.
   key is still a pass for the wiring. Say that the content scope may be empty,
   and name the reason.
 - **Repeat list parameters; don't comma-join them.** `fields`,
-  `collection`, `omnipub_uuids` and similar list parameters take one value
-  per occurrence (`fields=a&fields=b`). A comma-joined value is read as a
-  single item, which usually matches nothing and is ignored without an
-  error. `external_ids` is the exception: the spec defines it as a
-  comma-separated string.
+  `collection`, `tag`, `omnipub_uuids` and similar list parameters take one
+  value per occurrence (`fields=a&fields=b`). A comma-joined value is read
+  as a single item: `fields` then matches nothing and is ignored without an
+  error, `collection` and `tag` return 422, and `omnipub_uuids` returns 400.
+  `external_ids` is the exception: it is a comma-separated string.
 - When a call fails, read the `detail` in the error body before changing
   code. 401 is a bad or missing key. 402 is a token or billing limit. 403 is
   key permissions or a redistribution restriction. 422 is a bad parameter.

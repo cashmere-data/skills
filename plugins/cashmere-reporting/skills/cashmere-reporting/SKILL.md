@@ -13,7 +13,7 @@ description: >
   cashmere-developer.
 metadata:
   author: Cashmere
-  version: "0.4.0"
+  version: "0.5.0"
 ---
 
 # Report on Cashmere usage
