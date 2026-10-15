@@ -56,9 +56,11 @@ disagree, the docs win.
 
 - **Base URL:** `https://cashmere.io/api/v2`. Auth is
   `Authorization: Bearer <key>`.
-- **Keep the key out of code and transcripts.** Read it from the
-  `CASHMERE_API_KEY` environment variable. Never print it, log it, commit it,
-  or send it to a browser. In a web app, call Cashmere from the server.
+- **Keep the key out of code and transcripts.** Code you write reads it from
+  the `CASHMERE_API_KEY` environment variable. For your own calls during the
+  session, use that variable, or the key file `~/.config/cashmere/api-key`
+  if it is unset. Never print the key, log it, commit it, or send it to a
+  browser. In a web app, call Cashmere from the server.
 - **No key yet?** The user creates one at
   `https://cashmere.io/settings/api-keys`. You cannot do this for them. Ask,
   then wait. A Read-only key covers retrieval. Sending usage back with
@@ -70,6 +72,19 @@ disagree, the docs win.
   key with no collections attached sees every collection its organization is
   licensed for. Attaching collections narrows it. Empty search results usually
   mean the key has no license to that content, not that the query is wrong.
+
+## MCP tools or REST
+
+The Cashmere MCP server exposes a read-only subset of the REST API (search,
+publications, collections, a usage summary) behind an OAuth sign-in. If its
+tools are connected in this session:
+
+- **Use them to explore.** Look at real content, check what a key can see,
+  and try a query before writing code around it. No key is needed.
+- **Build on REST.** The MCP tools exist only inside your session. Code you
+  ship calls the REST API with its own key, or connects to the MCP server
+  itself if the product is an MCP client. Never ship code that assumes your
+  session's tools.
 
 ## Find the useful shape
 

@@ -40,7 +40,18 @@ filters and limits. Where this skill and the docs disagree, the docs win.
   `Authorization: Bearer <key>`. A Read-only key is enough and is the right
   choice for reporting.
 - The user creates the key at `https://cashmere.io/settings/api-keys`. You
-  cannot. Read it from `CASHMERE_API_KEY`, and never print, log or commit it.
+  cannot.
+- **Find the key** in the `CASHMERE_API_KEY` environment variable, or else
+  in the key file `~/.config/cashmere/api-key` (`%APPDATA%\cashmere\api-key`
+  on Windows). Never print, log or commit it. If neither has a key, follow
+  step 3 of the [setup guide](https://cashmere.io/docs/guides/agent-setup.md).
+  The key file is the easy route for users who don't work in a shell.
+- **Keep the key out of command lines.** Send the header through stdin, for
+  example `printf 'Authorization: Bearer %s\n' "$(cat ~/.config/cashmere/api-key)" | curl -H @- ...`.
+  Scripts you write read the same variable or file.
+- **Do not answer publisher questions with the MCP usage-summary tool**
+  unless its tool list shows a publisher view. It reports what the signed-in
+  organization *consumed*, not who consumed its content. Use the REST API.
 - **Ask for the publisher view.** The usage endpoints default to the
   *consumer* view (what this organization read). A publisher asking about
   its own content needs `view=publisher` (who read our content). Using the
@@ -53,7 +64,6 @@ filters and limits. Where this skill and the docs disagree, the docs win.
 | --- | --- |
 | A headline number for a period: tokens, events, date span | `GET /report/summary` |
 | Anything broken down by title, licensee, app, day, license right, query or citation | `GET /report` (one row per usage event), then aggregate in code |
-| A quick figure inside an MCP chat | the `get_usage_report_summary` tool on the Cashmere MCP server |
 
 - **The summary covers a limited window** (a month at most; see the spec).
   For a longer period, query it month by month and add the results up, and

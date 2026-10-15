@@ -55,7 +55,14 @@ docs win.
 - **Uploads need a Read & Write key from a publisher organization.** A
   Read-only key gets 403 on every write. The user creates keys at
   `https://cashmere.io/settings/api-keys`. You cannot. Ask, then wait.
-- **Read the key from `CASHMERE_API_KEY`.** Never print, log or commit it.
+- **Find the key** in the `CASHMERE_API_KEY` environment variable, or else
+  in the key file `~/.config/cashmere/api-key` (`%APPDATA%\cashmere\api-key`
+  on Windows). Never print, log or commit it. If neither has a key, follow
+  step 3 of the [setup guide](https://cashmere.io/docs/guides/agent-setup.md).
+  The key file is the easy route for users who don't work in a shell.
+- **Keep the key out of command lines.** Send the header through stdin, for
+  example `printf 'Authorization: Bearer %s\n' "$(cat ~/.config/cashmere/api-key)" | curl -H @- ...`.
+  Scripts you write read the same variable or file.
 - `GET /allowed-endpoints` shows what the key may call. Check it before
   debugging a 403.
 - Some settings exist only in the dashboard (for example collection pricing).

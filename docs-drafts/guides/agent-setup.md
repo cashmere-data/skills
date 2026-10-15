@@ -85,41 +85,76 @@ The skill is a single Markdown file. If neither method works, read it directly
 and follow it for this session:
 `https://raw.githubusercontent.com/cashmere-data/skills/main/plugins/<skill>/skills/<skill>/SKILL.md`
 
-## 3. Check for an API key
+## 3. Set up the API key
 
-The skills read the key from the `CASHMERE_API_KEY` environment variable.
-Check whether it is set without printing it:
+The skills look for a key in this order and use the first one they find:
+
+1. The `CASHMERE_API_KEY` environment variable.
+2. The key file: `~/.config/cashmere/api-key` on Linux and macOS
+   (`$XDG_CONFIG_HOME/cashmere/api-key` if that is set), or
+   `%APPDATA%\cashmere\api-key` on Windows. It holds the key alone on one
+   line, and nothing else.
+
+Check both without printing the key:
 
 ```
-test -n "$CASHMERE_API_KEY" && echo set || echo missing
+test -n "$CASHMERE_API_KEY" && echo "env: set" || echo "env: missing"
+test -s ~/.config/cashmere/api-key && echo "file: set" || echo "file: missing"
 ```
 
-If it is set, confirm that it works. This prints the key's permissions, not
-the key itself:
+If either is set, confirm that the key works. This prints the key's
+permissions, not the key. With the environment variable:
 
 ```
-curl -sS -H "Authorization: Bearer $CASHMERE_API_KEY" https://cashmere.io/api/v2/allowed-endpoints
+printf 'Authorization: Bearer %s\n' "$CASHMERE_API_KEY" | curl -sS -H @- https://cashmere.io/api/v2/allowed-endpoints
 ```
 
-> **User step.** If the key is missing, or is the wrong type for the skill
-> (see the table in step 1), ask the user to create one at
-> `https://cashmere.io/settings/api-keys` and set `CASHMERE_API_KEY` in their
-> shell or in the project's secret store. Do not ask them to paste the key
-> into the chat. Do not write it to a file yourself, and never print it.
+With the key file:
+
+```
+printf 'Authorization: Bearer %s\n' "$(cat ~/.config/cashmere/api-key)" | curl -sS -H @- https://cashmere.io/api/v2/allowed-endpoints
+```
+
+The header goes through stdin so that the key never appears in a command
+line or a transcript.
+
+If no key is found, or it is the wrong type for the skill (see the table in
+step 1), help the user set one up. Pick the route by who the user is:
+
+- **Developers** usually manage environment variables already. Ask them to
+  set `CASHMERE_API_KEY` in their shell profile or in the project's secret
+  store.
+- **Everyone else** should use the key file, which needs no shell knowledge.
+  Create it empty, with permissions only the user can read, then hand it
+  over:
+
+  ```
+  mkdir -p ~/.config/cashmere && touch ~/.config/cashmere/api-key && chmod 600 ~/.config/cashmere/api-key
+  ```
+
+  On Windows, create `%APPDATA%\cashmere\api-key` instead.
+
+> **User step.** Ask the user to create a key at
+> `https://cashmere.io/settings/api-keys`, then either set the environment
+> variable or paste the key into the key file and save it. Give them the
+> file's full path, and offer to open it in their editor. Never ask them to
+> paste the key into the chat, never write the key yourself, and never print
+> it. When they say it is done, run the check above again.
 
 A key is not needed to finish installing. Without one, report the skill as
 installed and the key as a user step.
 
 ## 4. Optional: connect the Cashmere MCP server
 
-Only for `cashmere-developer` and `cashmere-reporting`, and only if the user
-wants Cashmere tools inside the agent itself. Building an app against the
-REST API does not need it.
+Only for `cashmere-developer`, and only if the user wants Cashmere tools
+inside the agent itself. The content and reporting skills need the REST API. Building an app against the
+REST API does not need it. The MCP server uses its own sign-in, so it works
+without an API key.
 
-In Claude Code:
+In Claude Code, add it for the user, not just this project:
 
 ```
-claude mcp add --transport http cashmere https://mcp.cashmere.io
+claude mcp add --transport http -s user cashmere https://mcp.cashmere.io
 ```
 
 > **User step.** Ask the user to run `/mcp`, choose **cashmere** and sign in.
@@ -137,7 +172,7 @@ is not set, stop and report that it is missing. To use the MCP server, pass
 the key as a header instead of signing in:
 
 ```
-claude mcp add --transport http cashmere https://mcp.cashmere.io --header "Authorization: Bearer $CASHMERE_API_KEY"
+claude mcp add --transport http -s user cashmere https://mcp.cashmere.io --header "Authorization: Bearer $CASHMERE_API_KEY"
 ```
 
 ## Report the result
@@ -148,7 +183,7 @@ confirm.
 ```
 Cashmere agent setup
   ✓ <skill>        installed (Claude Code plugin | skills.sh)
-  ⚠ API key        CASHMERE_API_KEY not set (user step)
+  ⚠ API key        no key in CASHMERE_API_KEY or the key file (user step)
   – MCP server     not requested
 ```
 
