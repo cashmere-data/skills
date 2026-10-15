@@ -1,9 +1,11 @@
 {
   "name": "cashmere-reporting",
-  "version": "0.2.0",
+  "displayName": "Cashmere reporting",
+  "version": "0.3.0",
   "description": "Answer a publisher's usage and revenue questions from the Cashmere usage API.",
   "author": { "name": "Cashmere", "url": "https://cashmere.io" },
   "homepage": "https://cashmere.io/docs/guides/agent-setup",
   "repository": "https://github.com/cashmere-data/skills",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": ["cashmere", "publishing", "usage", "royalties", "revenue", "reporting", "analytics"]
 }
