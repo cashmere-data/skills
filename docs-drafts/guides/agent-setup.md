@@ -9,7 +9,7 @@ status: published
 
 These are official Cashmere instructions for installing a Cashmere agent
 skill into a coding agent (Claude Code, Codex, Cursor and others). They are
-published at `https://cashmere.io/docs/guides/agent-setup.md`, so you can check
+published at `https://cashmere.io/docs/agent-setup.txt`, so you can check
 where they came from before you follow them.
 
 If you are an agent: do every step yourself by running the commands, except
@@ -55,7 +55,10 @@ Expect `<skill>@cashmere` with status enabled. If it shows as disabled, run
 `claude plugin enable <skill>@cashmere`.
 
 > **User step.** Ask the user to run `/reload-plugins` in Claude Code, or to
-> restart it, so the skill loads.
+> restart it, so the skill loads. Then ask them to turn on updates: run
+> `/plugin`, open **Marketplaces**, choose **cashmere**, and select
+> **Enable auto-update**. Claude Code only updates third-party marketplaces
+> automatically once this is on.
 
 ### Other agents
 
@@ -199,9 +202,26 @@ If the key works, end by offering a tour, which works in any folder: "Want
 an overview of your Cashmere account and a tour of what you can do with it?"
 If the user says yes, follow the skill's "Orient yourself" section.
 
+## Troubleshooting
+
+- **`marketplace add` fails to clone:** check that the machine can reach
+  GitHub (`curl -sI https://github.com`) before debugging anything else.
+- **Installed, but the skill doesn't load:** the session started before the
+  install. Run `/reload-plugins` or restart the agent. In Claude Code,
+  `/plugin` shows load errors on its **Errors** tab.
+- **Key check returns 401:** the key is wrong, disabled or expired. A key file
+  holding anything besides the key, such as quotes or a `KEY=` prefix, also
+  fails.
+- **403 "Insufficient permissions":** the key's type or endpoint list doesn't
+  allow the call. Compare it with the table in step 1.
+- **Every search comes back empty:** the key works, but the organization has
+  no licensed content yet. That is an account question, not a setup bug.
+
 ## Updating
 
-- Claude Code: `claude plugin marketplace update cashmere`, then
+- Claude Code: automatic once auto-update is on (step 2). Updates land at
+  the start of the next session. To update now, run
+  `claude plugin marketplace update cashmere`, then
   `claude plugin update <skill>@cashmere`, then `/reload-plugins`.
 - Other agents: `npx -y skills update`.
 

@@ -10,7 +10,7 @@ Agent skills for [Cashmere](https://cashmere.io), the platform that licenses pre
 
 ## Install
 
-Using an AI agent? Point it to https://cashmere.io/docs/guides/agent-setup.md and name the skill you want.
+Using an AI agent? Point it to https://cashmere.io/docs/agent-setup.txt and name the skill you want.
 
 ### Claude Code
 
@@ -42,6 +42,13 @@ Name the skill in your prompt, for example:
 > Using the cashmere-reporting skill, show last month's tokens and billed revenue by title and by licensee.
 
 The skills point the agent at the live docs. Where a skill and the docs disagree, the docs win.
+
+## Maintaining
+
+- Each skill ships its own copy of `scripts/cashmere-api`, because installed plugins can't reach files outside their own directory. Keep the three copies identical.
+- Bump `version` in the plugin's `plugin.json` and `metadata.version` in its `SKILL.md` together on every change. Installed copies only update when the version changes.
+- Check manifests with `claude plugin validate .` and `claude plugin validate plugins/<plugin>`.
+- Acceptance prompts for each skill are in `evals/`.
 
 ## Update
 

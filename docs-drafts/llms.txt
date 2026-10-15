@@ -4,7 +4,7 @@
 
 ## Agent setup
 
-- [Set up your coding agent for Cashmere](https://cashmere.io/docs/guides/agent-setup.md): install the cashmere-developer, cashmere-content or cashmere-reporting agent skill.
+- [Set up your coding agent for Cashmere](https://cashmere.io/docs/agent-setup.txt): install the cashmere-developer, cashmere-content or cashmere-reporting agent skill.
 
 ## Getting started
 
