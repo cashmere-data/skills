@@ -13,7 +13,7 @@ description: >
   cashmere-reporting.
 metadata:
   author: Cashmere
-  version: "0.3.0"
+  version: "0.4.0"
 ---
 
 # Build with Cashmere
@@ -32,7 +32,7 @@ disagree, the docs win.
 - Start with the [documentation index](https://cashmere.io/docs/llms.txt) to
   find relevant pages. Read only the pages the task needs.
 - Every guide is served as Markdown at `https://cashmere.io/docs/guides/<path>.md`.
-  Drop the `.md` to get the HTML page.
+  The HTML page is `https://cashmere.io/docs/guides/<path>/`.
 - The API contract is the OpenAPI spec at
   [`https://cashmere.io/api/v2/openapi.json`](https://cashmere.io/api/v2/openapi.json),
   rendered for humans at [cashmere.io/docs](https://cashmere.io/docs). For a
@@ -167,6 +167,12 @@ recommend one. For a concrete request, pick the shape and build.
   result count, one title, one `view_source_url`. An empty list from a valid
   key is still a pass for the wiring. Say that the content scope may be empty,
   and name the reason.
+- **Repeat list parameters; don't comma-join them.** `fields`,
+  `collection`, `omnipub_uuids` and similar list parameters take one value
+  per occurrence (`fields=a&fields=b`). A comma-joined value is read as a
+  single item, which usually matches nothing and is ignored without an
+  error. `external_ids` is the exception: the spec defines it as a
+  comma-separated string.
 - When a call fails, read the `detail` in the error body before changing
   code. 401 is a bad or missing key. 402 is a token or billing limit. 403 is
   key permissions or a redistribution restriction. 422 is a bad parameter.
