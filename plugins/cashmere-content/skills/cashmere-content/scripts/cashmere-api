@@ -1,0 +1,56 @@
+#!/bin/sh
+# cashmere-api -- call the Cashmere REST API with the user's key, keeping the
+# key off the command line and out of the output.
+#
+# Usage: cashmere-api [METHOD] PATH [curl args...]
+#   cashmere-api /allowed-endpoints
+#   cashmere-api GET '/omnipubs?limit=20'
+#   cashmere-api POST /omnipub -F file=@book.epub -F 'external_id=9780000000000'
+#
+# Key: $CASHMERE_API_KEY, else the key file in $XDG_CONFIG_HOME (default
+# ~/.config) or %APPDATA%, at cashmere/api-key. Base URL: $CASHMERE_API_BASE,
+# default https://cashmere.io/api/v2. The body goes to stdout, "HTTP <code>" to
+# stderr, and the exit status is non-zero on an HTTP error.
+#
+# Every skill in this repo ships an identical copy of this file; edit them
+# together.
+set -eu
+
+base="${CASHMERE_API_BASE:-https://cashmere.io/api/v2}"
+
+case "${1:-}" in
+GET | POST | PUT | PATCH | DELETE)
+	method=$1
+	shift
+	;;
+*) method=GET ;;
+esac
+
+if [ $# -lt 1 ]; then
+	echo "usage: cashmere-api [METHOD] PATH [curl args...]" >&2
+	exit 2
+fi
+path=$1
+shift
+
+key="${CASHMERE_API_KEY:-}"
+if [ -z "$key" ]; then
+	for f in "${XDG_CONFIG_HOME:-$HOME/.config}/cashmere/api-key" \
+		"${APPDATA:-/nonexistent}/cashmere/api-key"; do
+		if [ -s "$f" ]; then
+			key=$(tr -d ' \r\n' <"$f")
+			break
+		fi
+	done
+fi
+if [ -z "$key" ]; then
+	echo "cashmere-api: no key in CASHMERE_API_KEY or the key file." >&2
+	echo "See step 3 of https://cashmere.io/docs/guides/agent-setup.md" >&2
+	exit 3
+fi
+
+# The header goes through stdin (printf is a builtin), so the key never
+# appears in a process listing.
+printf 'Authorization: Bearer %s\n' "$key" |
+	curl -sS --fail-with-body -X "$method" -H @- \
+		-w '\n%{stderr}HTTP %{http_code}\n' "$base$path" "$@"

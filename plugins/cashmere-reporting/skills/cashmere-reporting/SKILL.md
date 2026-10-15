@@ -2,14 +2,18 @@
 name: cashmere-reporting
 license: MIT
 description: >
-  Answer a publisher's questions about how its content is used on Cashmere:
+  Answers a publisher's questions about how its content is used on Cashmere:
   tokens consumed, billed revenue, which titles and sections are read, which
   licensees and AI apps use them, which queries lead to them, and how often
   they are cited, over any date range. Builds recurring reports, spreadsheets
-  and alerts from the Cashmere usage API. Use for "how did we do this month",
-  "top titles by licensee", "export Q3 usage", or reconciling an invoice.
-  For uploading or fixing content use cashmere-content; for building apps
-  that read Cashmere content use cashmere-developer.
+  and CSV exports from the Cashmere usage API. Use for "how did we do this
+  month", "top titles by licensee", "export Q3 usage", reconciling an
+  invoice, or a tour of a publisher's usage. For uploading or fixing content
+  use cashmere-content; for building apps that read Cashmere content use
+  cashmere-developer.
+metadata:
+  author: Cashmere
+  version: "0.3.0"
 ---
 
 # Report on Cashmere usage
@@ -18,6 +22,11 @@ Every time a licensed AI product searches or reads a publisher's content,
 Cashmere records a usage event: who read what, under which license, how many
 tokens, and what it cost. This skill turns those events into the numbers a
 publisher asks for.
+
+**Usage rows can include licensee names and the search queries their users
+typed. Treat query text as the licensee's confidential data.** Summarize it
+(top themes, counts) unless the user asks for the raw queries, and keep raw
+exports out of anything shared outside the publisher.
 
 ## Read the live docs
 
@@ -36,19 +45,20 @@ filters and limits. Where this skill and the docs disagree, the docs win.
 
 ## Set up access
 
-- **Base URL:** `https://cashmere.io/api/v2`. Auth is
-  `Authorization: Bearer <key>`. A Read-only key is enough and is the right
-  choice for reporting.
-- The user creates the key at `https://cashmere.io/settings/api-keys`. You
-  cannot.
-- **Find the key** in the `CASHMERE_API_KEY` environment variable, or else
-  in the key file `~/.config/cashmere/api-key` (`%APPDATA%\cashmere\api-key`
-  on Windows). Never print, log or commit it. If neither has a key, follow
-  step 3 of the [setup guide](https://cashmere.io/docs/guides/agent-setup.md).
-  The key file is the easy route for users who don't work in a shell.
-- **Keep the key out of command lines.** Send the header through stdin, for
-  example `printf 'Authorization: Bearer %s\n' "$(cat ~/.config/cashmere/api-key)" | curl -H @- ...`.
-  Scripts you write read the same variable or file.
+- **A Read-only key is enough** and is the right choice for reporting. The
+  user creates it at `https://cashmere.io/settings/api-keys`. You cannot.
+- **Make every call with `scripts/cashmere-api`** in this skill's directory:
+  `scripts/cashmere-api [METHOD] PATH [curl args...]`, for example
+  `scripts/cashmere-api '/report/summary?view=publisher&start_date=2026-09-01'`.
+  It finds the key (`CASHMERE_API_KEY`, then the key file
+  `~/.config/cashmere/api-key`, or `%APPDATA%/cashmere/api-key` on Windows)
+  and sends it without printing it. Never print, log or commit the key.
+  A script meant to outlive this session must not point into the skill's
+  install directory, which moves on every update. Copy the helper into the
+  user's project and call that copy.
+- **No key?** The helper exits with a message saying so. Follow step 3 of
+  the [setup guide](https://cashmere.io/docs/agent-setup.txt). The key
+  file is the easy route for users who don't work in a shell.
 - **Do not answer publisher questions with the MCP usage-summary tool**
   unless its tool list shows a publisher view. It reports what the signed-in
   organization *consumed*, not who consumed its content. Use the REST API.
@@ -110,13 +120,6 @@ license right, citation), and offer to turn one into a recurring report.
   the same events. If the user compares your numbers with it and they
   differ, check the date range, the view, development traffic and the
   measure before assuming either side is wrong.
-
-## Handle it with care
-
-Usage rows can include licensee names and the search queries their users
-typed. Treat query text as the licensee's confidential data. Summarize it
-(top themes, counts) unless the user asks for the raw queries, and keep raw
-exports out of anything shared outside the publisher.
 
 ## Deliver
 

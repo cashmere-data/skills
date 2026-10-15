@@ -2,15 +2,18 @@
 name: cashmere-developer
 license: MIT
 description: >
-  Build on Cashmere: licensed premium content (books, journals, articles) that
-  AI products can search, read, and cite. Covers the Cashmere REST API
-  (search, publications, sections, collections), the Cashmere MCP server, API
-  keys and collection scoping, Cashmere Link OAuth for third-party apps, and
-  citation rules. Use when writing code or agent tools that retrieve from
-  Cashmere, wiring Cashmere into Claude/ChatGPT/another MCP client, or
-  designing RAG or deep-research flows over licensed content. For publishers
+  Builds apps and agents on Cashmere, the licensed premium content platform
+  (books, journals, articles): search, read and cite publications through
+  the Cashmere REST API or MCP server, with API keys, collection scoping,
+  Cashmere Link OAuth and citation rules. Use when writing code or agent
+  tools that retrieve from Cashmere, adding RAG, search or deep research over
+  licensed content, connecting Cashmere to Claude, ChatGPT or another MCP
+  client, or when the user asks for a tour of their Cashmere account. For
   uploading content use cashmere-content; for usage and revenue numbers use
   cashmere-reporting.
+metadata:
+  author: Cashmere
+  version: "0.3.0"
 ---
 
 # Build with Cashmere
@@ -56,11 +59,16 @@ disagree, the docs win.
 
 - **Base URL:** `https://cashmere.io/api/v2`. Auth is
   `Authorization: Bearer <key>`.
-- **Keep the key out of code and transcripts.** Code you write reads it from
-  the `CASHMERE_API_KEY` environment variable. For your own calls during the
-  session, use that variable, or the key file `~/.config/cashmere/api-key`
-  if it is unset. Never print the key, log it, commit it, or send it to a
-  browser. In a web app, call Cashmere from the server.
+- **Make your own calls with `scripts/cashmere-api`** in this skill's
+  directory: `scripts/cashmere-api [METHOD] PATH [curl args...]`, for
+  example `scripts/cashmere-api '/omnipubs?limit=5'`. It finds the key
+  (`CASHMERE_API_KEY`, then the key file `~/.config/cashmere/api-key`) and
+  sends it without ever printing it. Use it instead of hand-built `curl`
+  calls.
+- **Keep the key out of code and transcripts.** Code you write for the user
+  reads `CASHMERE_API_KEY` from its environment. Never print the key, log
+  it, commit it, or send it to a browser. In a web app, call Cashmere from
+  the server.
 - **No key yet?** The user creates one at
   `https://cashmere.io/settings/api-keys`. You cannot do this for them. Ask,
   then wait. A Read-only key covers retrieval. Sending usage back with

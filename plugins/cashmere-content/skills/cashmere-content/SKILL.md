@@ -2,15 +2,18 @@
 name: cashmere-content
 license: MIT
 description: >
-  Manage a publisher's content on Cashmere: upload books, PDFs, EPUBs, articles,
-  web pages and XML to become searchable licensed "omnipubs"; attach metadata,
-  external IDs (e.g. ISBN) and ONIX records; organize them into collections and
-  tags; watch processing until content is searchable; fix failed or duplicate
-  uploads; replace or retire titles; and grant licenses to the organizations
-  that may use them. Use for bulk uploads, ingestion scripts, catalog cleanup,
-  and "why isn't my book showing up" questions. For building apps that read
-  Cashmere content use cashmere-developer; for usage and revenue numbers use
-  cashmere-reporting.
+  Manages a publisher's content on Cashmere: uploads books, PDFs, EPUBs,
+  articles, web pages and XML as searchable "omnipubs"; attaches metadata,
+  ISBNs, external IDs and ONIX records; organizes titles into collections and
+  tags; tracks processing until content is searchable; fixes failed or
+  duplicate uploads; replaces or retires titles; and grants licenses. Use for
+  uploading a catalog, ingestion scripts, catalog cleanup, "why isn't my book
+  showing up", or a tour of a publisher's Cashmere account. For building apps
+  that read Cashmere content use cashmere-developer; for usage and revenue
+  numbers use cashmere-reporting.
+metadata:
+  author: Cashmere
+  version: "0.3.0"
 ---
 
 # Manage content on Cashmere
@@ -50,19 +53,21 @@ docs win.
 
 ## Set up access
 
-- **Base URL:** `https://cashmere.io/api/v2`. Auth is
-  `Authorization: Bearer <key>`.
 - **Uploads need a Read & Write key from a publisher organization.** A
   Read-only key gets 403 on every write. The user creates keys at
   `https://cashmere.io/settings/api-keys`. You cannot. Ask, then wait.
-- **Find the key** in the `CASHMERE_API_KEY` environment variable, or else
-  in the key file `~/.config/cashmere/api-key` (`%APPDATA%\cashmere\api-key`
-  on Windows). Never print, log or commit it. If neither has a key, follow
-  step 3 of the [setup guide](https://cashmere.io/docs/guides/agent-setup.md).
-  The key file is the easy route for users who don't work in a shell.
-- **Keep the key out of command lines.** Send the header through stdin, for
-  example `printf 'Authorization: Bearer %s\n' "$(cat ~/.config/cashmere/api-key)" | curl -H @- ...`.
-  Scripts you write read the same variable or file.
+- **Make every call with `scripts/cashmere-api`** in this skill's directory:
+  `scripts/cashmere-api [METHOD] PATH [curl args...]`, for example
+  `scripts/cashmere-api POST /omnipub -F file=@book.epub -F external_id=9780000000000`.
+  It finds the key (`CASHMERE_API_KEY`, then the key file
+  `~/.config/cashmere/api-key`, or `%APPDATA%/cashmere/api-key` on Windows)
+  and sends it without printing it. Never print, log or commit the key.
+  A script meant to outlive this session must not point into the skill's
+  install directory, which moves on every update. Copy the helper into the
+  user's project and call that copy.
+- **No key?** The helper exits with a message saying so. Follow step 3 of
+  the [setup guide](https://cashmere.io/docs/agent-setup.txt). The key
+  file is the easy route for users who don't work in a shell.
 - `GET /allowed-endpoints` shows what the key may call. Check it before
   debugging a 403.
 - Some settings exist only in the dashboard (for example collection pricing).
