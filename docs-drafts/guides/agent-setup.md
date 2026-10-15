@@ -137,7 +137,11 @@ step 1), help the user set one up. Pick the route by who the user is:
 > **User step.** Ask the user to create a key at
 > `https://cashmere.io/settings/api-keys`, then either set the environment
 > variable or paste the key into the key file and save it. Give them the
-> file's full path, and offer to open it in their editor. Never ask them to
+> file's full path, and offer to open it in a graphical editor (`xdg-open`
+> on Linux, `open -t` on macOS, `notepad` on Windows). Do not suggest a
+> terminal editor run through the agent, such as Claude Code's `!` prefix:
+> it has no terminal, so `vim` or `nano` fails. A terminal editor in the
+> user's own terminal window is fine. Never ask them to
 > paste the key into the chat, never write the key yourself, and never print
 > it. When they say it is done, run the check above again.
 
@@ -189,9 +193,11 @@ Cashmere agent setup
 
 Use `✓` for verified, `⚠` for needs the user, `✗` for failed, and `–` for
 skipped. After the block, give the specific next action for every line that
-is not `✓`. Then suggest a first prompt that names the skill, for example
-"Using the cashmere-developer skill, add Cashmere search to this app's
-answer pipeline."
+is not `✓`.
+
+If the key works, end by offering a tour, which works in any folder: "Want
+an overview of your Cashmere account and a tour of what you can do with it?"
+If the user says yes, follow the skill's "Orient yourself" section.
 
 ## Updating
 
