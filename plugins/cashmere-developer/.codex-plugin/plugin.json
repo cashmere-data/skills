@@ -1,0 +1,20 @@
+{
+  "name": "cashmere-developer",
+  "version": "0.4.0",
+  "description": "Build apps and agents that search, read and cite licensed content through the Cashmere API and MCP server.",
+  "author": { "name": "Cashmere", "url": "https://cashmere.io" },
+  "homepage": "https://github.com/cashmere-data/skills",
+  "keywords": ["cashmere", "licensed-content", "rag", "search", "citations", "mcp", "api"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cashmere for developers",
+    "shortDescription": "Search, read and cite licensed content via the Cashmere API.",
+    "developerName": "Cashmere",
+    "category": "Developer Tools",
+    "capabilities": ["Skills"],
+    "defaultPrompt": [
+      "Give me an overview of my Cashmere account.",
+      "Add Cashmere search with citations to this app."
+    ]
+  }
+}

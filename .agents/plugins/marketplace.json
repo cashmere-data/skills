@@ -1,0 +1,26 @@
+{
+  "name": "cashmere",
+  "interface": {
+    "displayName": "Cashmere"
+  },
+  "plugins": [
+    {
+      "name": "cashmere-developer",
+      "source": { "source": "local", "path": "./plugins/cashmere-developer" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cashmere-content",
+      "source": { "source": "local", "path": "./plugins/cashmere-content" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    },
+    {
+      "name": "cashmere-reporting",
+      "source": { "source": "local", "path": "./plugins/cashmere-reporting" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}

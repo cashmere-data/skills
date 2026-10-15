@@ -1,7 +1,7 @@
 {
   "name": "cashmere-reporting",
   "displayName": "Cashmere reporting",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Answer a publisher's usage and revenue questions from the Cashmere usage API.",
   "author": { "name": "Cashmere", "url": "https://cashmere.io" },
   "homepage": "https://cashmere.io/docs/guides/agent-setup",
