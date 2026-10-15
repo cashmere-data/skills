@@ -1,0 +1,28 @@
+{
+  "name": "cashmere",
+  "description": "Official Cashmere agent skills: build on licensed premium content, manage a publisher catalog, and report on usage.",
+  "owner": {
+    "name": "Cashmere",
+    "url": "https://cashmere.io"
+  },
+  "plugins": [
+    {
+      "name": "cashmere-developer",
+      "description": "Build apps and agents that search, read and cite licensed content through the Cashmere API and MCP server.",
+      "source": "./plugins/cashmere-developer",
+      "skills": ["./skills/cashmere-developer"]
+    },
+    {
+      "name": "cashmere-content",
+      "description": "Upload, organize, license and troubleshoot a publisher's content on Cashmere.",
+      "source": "./plugins/cashmere-content",
+      "skills": ["./skills/cashmere-content"]
+    },
+    {
+      "name": "cashmere-reporting",
+      "description": "Answer a publisher's usage and revenue questions from the Cashmere usage API.",
+      "source": "./plugins/cashmere-reporting",
+      "skills": ["./skills/cashmere-reporting"]
+    }
+  ]
+}

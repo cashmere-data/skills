@@ -1,0 +1,9 @@
+{
+  "name": "cashmere-content",
+  "version": "0.1.0",
+  "description": "Upload, organize, license and troubleshoot a publisher's content on Cashmere.",
+  "author": { "name": "Cashmere", "url": "https://cashmere.io" },
+  "homepage": "https://cashmere.io/docs/guides/agent-setup",
+  "repository": "https://github.com/cashmere-data/skills",
+  "license": "MIT"
+}

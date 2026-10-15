@@ -1,0 +1,42 @@
+# Cashmere developer and publisher docs
+
+> Cashmere licenses premium publisher content (books, journals, articles) to AI products. Developers search, read and cite it through a REST API and an MCP server. Publishers upload content, license it, and track its usage. Every guide below is Markdown. Drop the `.md` to get the HTML page. The API contract is https://cashmere.io/api/v2/openapi.json; where a guide and the spec disagree, the spec wins.
+
+## Agent setup
+
+- [Set up your coding agent for Cashmere](https://cashmere.io/docs/guides/agent-setup.md): install the cashmere-developer, cashmere-content or cashmere-reporting agent skill.
+
+## Getting started
+
+- [What is Cashmere](https://cashmere.io/docs/guides/what-is-cashmere.md): what Cashmere is and who it is for.
+- [Creating an account](https://cashmere.io/docs/guides/creating-an-account.md): sign up.
+- [Creating an API key](https://cashmere.io/docs/guides/creating-an-api-key.md): create a key and scope it to collections.
+- [What is an Omnipub](https://cashmere.io/docs/guides/omnipub.md): the publication model of sections, blocks and navigation.
+
+## Developers
+
+- [Developer quickstart](https://cashmere.io/docs/guides/developers/quickstart.md): first search call, first publication read, first MCP connection.
+- [AI search on licensed content](https://cashmere.io/docs/guides/developers/ai-search-on-licensed-content.md): how `/search` works, filters and fields.
+- [Enabling AI search for your AI agents](https://cashmere.io/docs/guides/developers/enabling-ai-search-for-your-ai-agents.md): a retrieval tool for an LLM agent, with citations.
+- [Cashmere MCP tools](https://cashmere.io/docs/guides/developers/cashmere-mcp-tools.md): what each MCP tool does.
+- [Connecting MCP to Claude](https://cashmere.io/docs/guides/developers/connecting-mcp-to-claude.md): add Cashmere as a Claude connector with OAuth.
+- [Installing a private content app in Claude](https://cashmere.io/docs/guides/developers/installing-private-content-app-in-claude.md): connect with an API key.
+- [Connecting MCP to ChatGPT](https://cashmere.io/docs/guides/developers/connecting-mcp-to-chatgpt.md): add Cashmere as a ChatGPT connector.
+- [Creating a custom app in ChatGPT](https://cashmere.io/docs/guides/developers/creating-custom-app-in-chatgpt.md): a ChatGPT app backed by Cashmere.
+- [Cashmere Link OAuth](https://cashmere.io/docs/guides/developers/cashmere-link-oauth-overview.md): let your users connect their own Cashmere access.
+- [Usage data via API](https://cashmere.io/docs/guides/developers/usage-data-via-api.md): report usage and citations, and read usage reports.
+
+## Publishers
+
+- [Publisher quickstart](https://cashmere.io/docs/guides/publishers/quickstart.md): getting content into Cashmere.
+- [Add content in the Cashmere console](https://cashmere.io/docs/guides/publishers/add-content-in-cashmere-console.md): upload through the dashboard.
+- [Add omnipubs via API](https://cashmere.io/docs/guides/developers/add-omnipubs-via-api.md): upload through the API and poll processing status.
+- [Connect an S3 bucket](https://cashmere.io/docs/guides/publishers/connect-s3-bucket.md): bulk ingest from S3.
+- [Connect an SFTP server](https://cashmere.io/docs/guides/publishers/connect-sftp-server.md): bulk ingest over SFTP.
+- [ONIX support](https://cashmere.io/docs/guides/publishers/onix-support.md): attach ONIX metadata by ISBN.
+- [Managing licenses via API](https://cashmere.io/docs/guides/developers/managing-licenses-via-api.md): grant, approve and update licenses.
+
+## API reference
+
+- [OpenAPI spec](https://cashmere.io/api/v2/openapi.json): the machine-readable contract for every public endpoint.
+- [API reference](https://cashmere.io/docs): the same spec, rendered.
