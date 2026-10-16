@@ -10,7 +10,7 @@ Agent skills for [Cashmere](https://cashmere.io), the platform that licenses pre
 
 ## Install
 
-Using an AI agent? Point it to https://cashmere.io/docs/agent-setup.txt and name the skill you want.
+Using an AI agent? Ask it to "set up Cashmere agent skills: fetch and follow https://cashmere.io/docs/agent-setup.txt". It asks which skills you want, or name them in the prompt.
 
 ### Claude Code
 
