@@ -1,6 +1,6 @@
 {
   "name": "cashmere-developer",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Build apps and agents that search, read and cite licensed content through the Cashmere API and MCP server.",
   "author": { "name": "Cashmere", "url": "https://cashmere.io" },
   "homepage": "https://github.com/cashmere-data/skills",

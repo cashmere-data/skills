@@ -13,7 +13,7 @@ description: >
   cashmere-reporting.
 metadata:
   author: Cashmere
-  version: "0.5.0"
+  version: "0.5.1"
 ---
 
 # Build with Cashmere
@@ -171,12 +171,12 @@ recommend one. For a concrete request, pick the shape and build.
   result count, one title, one `view_source_url`. An empty list from a valid
   key is still a pass for the wiring. Say that the content scope may be empty,
   and name the reason.
-- **Repeat list parameters; don't comma-join them.** `fields`,
-  `collection`, `tag`, `omnipub_uuids` and similar list parameters take one
-  value per occurrence (`fields=a&fields=b`). A comma-joined value is read
-  as a single item: `fields` then matches nothing and is ignored without an
-  error, `collection` and `tag` return 422, and `omnipub_uuids` returns 400.
-  `external_ids` is the exception: it is a comma-separated string.
+- **Repeat list parameters.** `fields`, `collection`, `tag`,
+  `omnipub_uuids` and similar list parameters take one value per occurrence
+  (`collection=1&collection=2`), and that form works everywhere. Don't
+  comma-join `fields`: a joined value is read as one field name, matches
+  nothing, and is ignored without an error. `external_ids` is the exception:
+  it is a comma-separated string.
 - When a call fails, read the `detail` in the error body before changing
   code. 401 is a bad or missing key. 402 is a token or billing limit. 403 is
   key permissions or a redistribution restriction. 422 is a bad parameter.
