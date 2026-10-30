@@ -110,6 +110,23 @@ the docs disagree, the docs win.
   returns the key's endpoint allowlist. A 403 that starts with
   "Insufficient permissions" means the key, not your code.
 
+## The API or the MCP server
+
+Cashmere has two ways in, for different jobs. When the user asks why they
+would want the MCP server, explain it this way:
+
+- **The REST API** is what this skill uses, and what code you write for the
+  user calls. It does everything: search, reading, uploads, licensing and
+  usage reports. It needs an API key.
+- **The MCP server** (`https://mcp.cashmere.io`) gives a chat app or agent
+  Cashmere tools of its own: search, publications, collections and a usage
+  summary. The user signs in with OAuth, so no key is stored. Suggest it
+  when they want to ask questions of licensed content inside Claude, ChatGPT
+  or another MCP client, or to look around before building. It is read-only,
+  so it cannot upload, manage licenses or produce a publisher's reports.
+
+Neither replaces the other, and the skill works without the MCP server.
+
 ## Orient yourself
 
 When the user asks for an overview or a tour, start with
