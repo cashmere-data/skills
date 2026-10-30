@@ -33,8 +33,11 @@ script.
   the server.
 - **Keys belong to an organization, and they only see licensed content.** A
   key with no collections attached sees every collection its organization is
-  licensed for. Attaching collections narrows it. Empty search results usually
-  mean the key has no license to that content, not that the query is wrong.
+  licensed for. Attaching collections narrows it. The API keys page requires
+  at least one once the organization has any, so a collection licensed after
+  the key was made stays invisible to it until it is added to the key. Empty search results
+  usually mean the key has no license to that content, not that the query is
+  wrong.
 
 ## Orient yourself
 
@@ -49,10 +52,20 @@ building, read the account first. Use read-only calls only:
    end to end.
 
 Report it as a short table, then tour what the user could build, using their
-real collections and titles as the examples. If the key sees no
-publications, say so first. Every search will come back empty until the
-organization licenses a collection, and that, not the code, is the next
-step.
+real collections and titles as the examples.
+
+If the key sees no publications, say so first, as a next step rather than a
+failure. The key and the wiring work, but there is nothing licensed for it
+to read yet, so every search will come back empty. Then:
+
+- If `/licenses` is empty too, the organization has licensed nothing. Send
+  the user to `https://cashmere.io/discover`, which lists the collections
+  they can license. Some are free and granted at once.
+- If the organization has licenses but the key sees none of them, the key
+  is attached to other collections. Ask the user to add the licensed ones
+  to the key on its page under `https://cashmere.io/settings/api-keys`.
+
+Offer to run the tour again once they have.
 
 ## MCP tools or REST
 
