@@ -71,11 +71,41 @@ the docs disagree, the docs win.
 - **The key type depends on the work.** A Read-only key covers retrieval and
   reporting. Uploads, metadata changes and licensing need a Read & Write key
   from a publisher organization.
-- **No key?** The helper exits with a message saying so. The user creates
-  one at `https://cashmere.io/settings/api-keys`. You cannot do this for
-  them. Ask, then wait. Follow step 3 of the
-  [setup guide](https://cashmere.io/docs/agent-setup.txt). The key file is
-  the easy route for users who don't work in a shell.
+- **No key yet? Explain before you send the user anywhere.** The helper
+  exits with a message saying so. Do not just repeat it. Tell the user, in a
+  few sentences:
+  - **What a key is.** It connects this agent to their Cashmere
+    organization. It reads only the content that organization has licensed,
+    and its reads are metered against the organization's credits.
+  - **Why the skill needs one.** Every API call carries it. Exploring
+    through the MCP connector needs no key (see below).
+  - **How to get one**, depending on where they are:
+    - No Cashmere account: sign up at `https://cashmere.io/accounts/signup`.
+      New accounts get free starter credits, and the onboarding that follows
+      signup offers collections that are free to license, then creates a
+      first key.
+    - An account with nothing licensed yet:
+      `https://cashmere.io/discover` lists the collections they can
+      license. Some are free and granted at once, and others wait for the
+      publisher's approval. Then create a key.
+    - Otherwise: `https://cashmere.io/settings/api-keys`.
+
+  You cannot create the key for them, and they should never paste it into
+  the chat. Then wait.
+- **Where the key goes.** Pick one place for the user and give them its
+  exact full path:
+  - **Most people: the key file.** Create it empty, readable only by the
+    user: `mkdir -p ~/.config/cashmere && touch ~/.config/cashmere/api-key && chmod 600 ~/.config/cashmere/api-key`
+    (on Windows, `%APPDATA%\cashmere\api-key`). Ask them to paste the key
+    into it alone on one line, with no quotes and no `KEY=`, and save.
+    Offer to open it in a graphical editor (`xdg-open` on Linux, `open -t`
+    on macOS, `notepad` on Windows).
+  - **Developers who manage environment variables:** `CASHMERE_API_KEY`,
+    in their shell profile or the project's secret store.
+
+  When they say it is done, confirm with `scripts/cashmere-api /allowed-endpoints`.
+  Step 3 of the [setup guide](https://cashmere.io/docs/agent-setup.txt)
+  has the details.
 - **Check what the key can do before debugging.** `GET /allowed-endpoints`
   returns the key's endpoint allowlist. A 403 that starts with
   "Insufficient permissions" means the key, not your code.

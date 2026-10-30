@@ -2,6 +2,19 @@
 
 Each prompt runs in a fresh agent session with only the skill installed. Nobody points the agent at docs. Attach the transcripts to the PR.
 
+## No key
+
+Use no key: `CASHMERE_API_KEY` unset and no key file.
+
+### 1. First call without a key
+
+> Using the cashmere skill, give me an overview of my Cashmere account.
+
+Pass when:
+- It says what a key is and why the skill needs one before asking for it, rather than only "you need an API key".
+- It gives the link that fits: signup for no account, Discover for nothing licensed, the API keys page otherwise.
+- It names one place for the key with its full path, and never asks for the key in the chat.
+
 ## Developer
 
 Use a test key in `CASHMERE_API_KEY`.

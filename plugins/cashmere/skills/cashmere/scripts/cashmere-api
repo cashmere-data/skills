@@ -41,8 +41,19 @@ if [ -z "$key" ]; then
 	done
 fi
 if [ -z "$key" ]; then
-	echo "cashmere-api: no key in CASHMERE_API_KEY or the key file." >&2
-	echo "See step 3 of https://cashmere.io/docs/guides/agent-setup.md" >&2
+	keyfile="${XDG_CONFIG_HOME:-$HOME/.config}/cashmere/api-key"
+	[ -n "${APPDATA:-}" ] && keyfile="$APPDATA/cashmere/api-key"
+	cat >&2 <<EOF
+cashmere-api: no Cashmere API key found.
+A key connects this agent to your Cashmere organization. It reads only
+content your organization has licensed, metered against its credits.
+  New to Cashmere? Sign up at https://cashmere.io/accounts/signup
+    (free starter credits; onboarding helps you license free
+    collections and create a key).
+  Have an account? Create a key at https://cashmere.io/settings/api-keys
+Then save it alone on one line in $keyfile,
+or set CASHMERE_API_KEY. Setup guide: https://cashmere.io/docs/agent-setup.txt
+EOF
 	exit 3
 fi
 
