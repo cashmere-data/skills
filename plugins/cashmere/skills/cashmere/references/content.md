@@ -1,44 +1,12 @@
----
-name: cashmere-content
-license: MIT
-description: >
-  Manages a publisher's content on Cashmere: uploads books, PDFs, EPUBs,
-  articles, web pages and XML as searchable "omnipubs"; attaches metadata,
-  ISBNs, external IDs and ONIX records; organizes titles into collections and
-  tags; tracks processing until content is searchable; fixes failed or
-  duplicate uploads; replaces or retires titles; and grants licenses. Use for
-  uploading a catalog, ingestion scripts, catalog cleanup, "why isn't my book
-  showing up", or a tour of a publisher's Cashmere account. For building apps
-  that read Cashmere content use cashmere-developer; for usage and revenue
-  numbers use cashmere-reporting.
-metadata:
-  author: Cashmere
-  version: "0.5.0"
----
-
 # Manage content on Cashmere
 
 A publisher uploads a file or a page. Cashmere parses it into an **omnipub**
 (a structured publication with sections and blocks), indexes it, and serves
 it to licensed AI products. The work here is getting content in cleanly,
-knowing when it is ready, and controlling who can use it.
+knowing when it is ready, and controlling who can use it. Read SKILL.md
+first: it covers the live docs, the API key and the helper script.
 
-## Read the live docs
-
-**The live Cashmere docs are the source of truth. Read them as part of the
-task.** This skill gives direction. The docs carry the current fields,
-formats, status codes and limits. Where this skill and the docs disagree, the
-docs win.
-
-- Start with the [documentation index](https://cashmere.io/docs/llms.txt).
-  Read only the pages the task needs.
-- Every guide is served as Markdown at `https://cashmere.io/docs/guides/<path>.md`.
-- The API contract is
-  [`https://cashmere.io/api/v2/openapi.json`](https://cashmere.io/api/v2/openapi.json).
-  For a field name, an accepted value or a status code, the spec outranks the
-  guides.
-- If the index is unavailable, use the links below. If a `.md` fetch fails,
-  fetch the HTML page. With no live access, say so and do not invent fields.
+## Start here
 
 | Task | Start here |
 | --- | --- |
@@ -51,25 +19,10 @@ docs win.
 | Grant and manage licenses | [Managing licenses via API](https://cashmere.io/docs/guides/developers/managing-licenses-via-api.md) |
 | Collections and tags | `/collections` and `/tags` in the spec |
 
-## Set up access
+## Access for publishers
 
 - **Uploads need a Read & Write key from a publisher organization.** A
-  Read-only key gets 403 on every write. The user creates keys at
-  `https://cashmere.io/settings/api-keys`. You cannot. Ask, then wait.
-- **Make every call with `scripts/cashmere-api`** in this skill's directory:
-  `scripts/cashmere-api [METHOD] PATH [curl args...]`, for example
-  `scripts/cashmere-api POST /omnipub -F file=@book.epub -F external_id=9780000000000`.
-  It finds the key (`CASHMERE_API_KEY`, then the key file
-  `~/.config/cashmere/api-key`, or `%APPDATA%/cashmere/api-key` on Windows)
-  and sends it without printing it. Never print, log or commit the key.
-  A script meant to outlive this session must not point into the skill's
-  install directory, which moves on every update. Copy the helper into the
-  user's project and call that copy.
-- **No key?** The helper exits with a message saying so. Follow step 3 of
-  the [setup guide](https://cashmere.io/docs/agent-setup.txt). The key
-  file is the easy route for users who don't work in a shell.
-- `GET /allowed-endpoints` shows what the key may call. Check it before
-  debugging a 403.
+  Read-only key gets 403 on every write.
 - Some settings exist only in the dashboard (for example collection pricing).
   When the spec has no field for what the user wants, send them to the
   dashboard page and say which setting to change. Do not guess an API

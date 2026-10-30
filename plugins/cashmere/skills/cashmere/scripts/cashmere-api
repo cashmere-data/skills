@@ -11,9 +11,6 @@
 # ~/.config) or %APPDATA%, at cashmere/api-key. Base URL: $CASHMERE_API_BASE,
 # default https://cashmere.io/api/v2. The body goes to stdout, "HTTP <code>" to
 # stderr, and the exit status is non-zero on an HTTP error.
-#
-# Every skill in this repo ships an identical copy of this file; edit them
-# together.
 set -eu
 
 base="${CASHMERE_API_BASE:-https://cashmere.io/api/v2}"

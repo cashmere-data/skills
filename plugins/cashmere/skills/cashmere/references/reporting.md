@@ -1,64 +1,26 @@
----
-name: cashmere-reporting
-license: MIT
-description: >
-  Answers a publisher's questions about how its content is used on Cashmere:
-  tokens consumed, billed revenue, which titles and sections are read, which
-  licensees and AI apps use them, which queries lead to them, and how often
-  they are cited, over any date range. Builds recurring reports, spreadsheets
-  and CSV exports from the Cashmere usage API. Use for "how did we do this
-  month", "top titles by licensee", "export Q3 usage", reconciling an
-  invoice, or a tour of a publisher's usage. For uploading or fixing content
-  use cashmere-content; for building apps that read Cashmere content use
-  cashmere-developer.
-metadata:
-  author: Cashmere
-  version: "0.5.0"
----
-
 # Report on Cashmere usage
 
 Every time a licensed AI product searches or reads a publisher's content,
 Cashmere records a usage event: who read what, under which license, how many
-tokens, and what it cost. This skill turns those events into the numbers a
-publisher asks for.
+tokens, and what it cost. This guide turns those events into the numbers a
+publisher asks for. Read SKILL.md first: it covers the live docs, the API key
+and the helper script.
 
 **Usage rows can include licensee names and the search queries their users
 typed. Treat query text as the licensee's confidential data.** Summarize it
 (top themes, counts) unless the user asks for the raw queries, and keep raw
 exports out of anything shared outside the publisher.
 
-## Read the live docs
+## Start here
 
-**The live Cashmere docs are the source of truth. Read them as part of the
-task.** This skill gives direction. The docs carry the current fields,
-filters and limits. Where this skill and the docs disagree, the docs win.
+Read [Usage data via API](https://cashmere.io/docs/guides/developers/usage-data-via-api.md),
+then the `/report` endpoints in the
+[OpenAPI spec](https://cashmere.io/api/v2/openapi.json). The spec outranks
+the guide on field names and filters.
 
-- Start with [Usage data via API](https://cashmere.io/docs/guides/developers/usage-data-via-api.md),
-  then the `/report` endpoints in
-  [`https://cashmere.io/api/v2/openapi.json`](https://cashmere.io/api/v2/openapi.json).
-  The spec outranks the guide on field names and filters.
-- The [documentation index](https://cashmere.io/docs/llms.txt) lists every
-  other page.
-- If a `.md` fetch fails, fetch the HTML page. With no live access, say so
-  and do not invent fields or totals.
+## Access for reporting
 
-## Set up access
-
-- **A Read-only key is enough** and is the right choice for reporting. The
-  user creates it at `https://cashmere.io/settings/api-keys`. You cannot.
-- **Make every call with `scripts/cashmere-api`** in this skill's directory:
-  `scripts/cashmere-api [METHOD] PATH [curl args...]`, for example
-  `scripts/cashmere-api '/report/summary?view=publisher&start_date=2026-09-01'`.
-  It finds the key (`CASHMERE_API_KEY`, then the key file
-  `~/.config/cashmere/api-key`, or `%APPDATA%/cashmere/api-key` on Windows)
-  and sends it without printing it. Never print, log or commit the key.
-  A script meant to outlive this session must not point into the skill's
-  install directory, which moves on every update. Copy the helper into the
-  user's project and call that copy.
-- **No key?** The helper exits with a message saying so. Follow step 3 of
-  the [setup guide](https://cashmere.io/docs/agent-setup.txt). The key
-  file is the easy route for users who don't work in a shell.
+- **A Read-only key is enough** and is the right choice for reporting.
 - **Do not answer publisher questions with the MCP usage-summary tool**
   unless its tool list shows a publisher view. It reports what the signed-in
   organization *consumed*, not who consumed its content. Use the REST API.

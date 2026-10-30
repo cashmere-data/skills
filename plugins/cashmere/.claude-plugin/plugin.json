@@ -1,0 +1,11 @@
+{
+  "name": "cashmere",
+  "displayName": "Cashmere",
+  "version": "0.6.0",
+  "description": "Build on licensed premium content through the Cashmere API and MCP server, manage a publisher's catalog, and report on its usage and revenue.",
+  "author": { "name": "Cashmere", "url": "https://cashmere.io" },
+  "homepage": "https://cashmere.io/docs/guides/agent-setup",
+  "repository": "https://github.com/cashmere-data/skills",
+  "license": "MIT",
+  "keywords": ["cashmere", "licensed-content", "rag", "search", "citations", "mcp", "api", "publishing", "upload", "onix", "usage", "reporting"]
+}

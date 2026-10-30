@@ -1,46 +1,10 @@
----
-name: cashmere-developer
-license: MIT
-description: >
-  Builds apps and agents on Cashmere, the licensed premium content platform
-  (books, journals, articles): search, read and cite publications through
-  the Cashmere REST API or MCP server, with API keys, collection scoping,
-  Cashmere Link OAuth and citation rules. Use when writing code or agent
-  tools that retrieve from Cashmere, adding RAG, search or deep research over
-  licensed content, connecting Cashmere to Claude, ChatGPT or another MCP
-  client, or when the user asks for a tour of their Cashmere account. For
-  uploading content use cashmere-content; for usage and revenue numbers use
-  cashmere-reporting.
-metadata:
-  author: Cashmere
-  version: "0.5.1"
----
-
 # Build with Cashmere
 
-Cashmere licenses premium publisher content to AI. Developers retrieve it
-through a REST API or an MCP server. Every read is metered against a license,
-and every answer built on it should link back to the source.
+Developers retrieve licensed content through the REST API or the MCP server.
+Read SKILL.md first: it covers the live docs, the API key and the helper
+script.
 
-## Read the live docs
-
-**The live Cashmere docs are the source of truth. Read them as part of the
-task.** This skill gives direction. The docs carry the current endpoints,
-parameters, search models, limits, and examples. Where this skill and the docs
-disagree, the docs win.
-
-- Start with the [documentation index](https://cashmere.io/docs/llms.txt) to
-  find relevant pages. Read only the pages the task needs.
-- Every guide is served as Markdown at `https://cashmere.io/docs/guides/<path>.md`.
-  The HTML page is `https://cashmere.io/docs/guides/<path>/`.
-- The API contract is the OpenAPI spec at
-  [`https://cashmere.io/api/v2/openapi.json`](https://cashmere.io/api/v2/openapi.json),
-  rendered for humans at [cashmere.io/docs](https://cashmere.io/docs). For a
-  parameter name, a response field, or an error code, the spec outranks the
-  guides.
-- If the index is unavailable, use the direct links below. If a `.md` fetch
-  fails, fetch the HTML page. If you have no live access at all, say so, and
-  do not invent parameters, model names, or response fields.
+## Start here
 
 | Task | Start here |
 | --- | --- |
@@ -59,27 +23,14 @@ disagree, the docs win.
 | List or search publications by tag | [Cookbook: filter by tag](https://cashmere.io/docs/guides/developers/cookbooks/filter-by-tag.md) (`/search` has no tag filter) |
 | Find sources, then read whole sections | [Cookbook: deep research over MCP](https://cashmere.io/docs/guides/developers/cookbooks/deep-research-over-mcp.md) (MCP and REST) |
 
-## Set up access
+## Access for developers
 
-- **Base URL:** `https://cashmere.io/api/v2`. Auth is
-  `Authorization: Bearer <key>`.
-- **Make your own calls with `scripts/cashmere-api`** in this skill's
-  directory: `scripts/cashmere-api [METHOD] PATH [curl args...]`, for
-  example `scripts/cashmere-api '/omnipubs?limit=5'`. It finds the key
-  (`CASHMERE_API_KEY`, then the key file `~/.config/cashmere/api-key`) and
-  sends it without ever printing it. Use it instead of hand-built `curl`
-  calls.
+- **A Read-only key covers retrieval.** Sending usage back with
+  `POST /report` needs a Read & Write key.
 - **Keep the key out of code and transcripts.** Code you write for the user
   reads `CASHMERE_API_KEY` from its environment. Never print the key, log
   it, commit it, or send it to a browser. In a web app, call Cashmere from
   the server.
-- **No key yet?** The user creates one at
-  `https://cashmere.io/settings/api-keys`. You cannot do this for them. Ask,
-  then wait. A Read-only key covers retrieval. Sending usage back with
-  `POST /report` needs a Read & Write key.
-- **Check what the key can do before debugging.** `GET /allowed-endpoints`
-  returns the key's endpoint allowlist. A 403 that starts with
-  "Insufficient permissions" means the key, not your code.
 - **Keys belong to an organization, and they only see licensed content.** A
   key with no collections attached sees every collection its organization is
   licensed for. Attaching collections narrows it. Empty search results usually
@@ -129,8 +80,8 @@ formatting in code.
   from an example.
 - **Research across sources, then read deeply.** Find the few relevant
   publications, read their table of contents, then read the sections that
-  matter. Over MCP this is `find_relevant_sources` → `get_table_of_contents`
-  → `get_section`. Over REST it is `/search`, then `GET /omnipub/{uuid}`
+  matter. Over MCP this is `find_relevant_sources`, then `get_table_of_contents`,
+  then `get_section`. Over REST it is `/search`, then `GET /omnipub/{uuid}`
   (its `nav` is the TOC), then the section or `/content` endpoints.
 - **Browse a catalog.** `GET /omnipubs` lists publications, with filters for
   collection, tag, external ID and text. Use it to build pickers, not to

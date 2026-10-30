@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # build-zips.sh -- package each skill as dist/<skill>.zip for upload to
-# Claude Desktop / claude.ai (Settings > Capabilities > Skills).
+# Claude Desktop / claude.ai (Customize > Skills).
 #
 # Each zip holds the skill's own directory at its root (<skill>/SKILL.md,
 # <skill>/scripts/...), which is the layout the upload expects.
